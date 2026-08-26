@@ -1,0 +1,16 @@
+# Railway assigns the listen port at runtime, so read it from the environment.
+# The default is only for running this image locally.
+:{$PORT:8080} {
+	root * /srv
+	encode gzip zstd
+	file_server
+
+	# The image filenames are NOT content-hashed, so a long immutable cache
+	# would strand viewers on an old headshot after it is replaced. A day is
+	# plenty for a site that changes by deploy.
+	header /images/* Cache-Control "public, max-age=86400"
+	# The page itself carries the copy, which is the part most likely to be
+	# corrected in a hurry — keep it short.
+	header /index.html Cache-Control "public, max-age=300"
+	header / Cache-Control "public, max-age=300"
+}

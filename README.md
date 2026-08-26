@@ -32,6 +32,26 @@ from a subpath like `https://<org>.github.io/eic/`.
    the white-label host once it exists, so no EIC-facing link lands on a
    ProdComm-branded screen.
 
+## Deploying on Railway
+
+`Dockerfile` + `Caddyfile` are here because Railway has nothing to autodetect
+otherwise — the repo is four static files with no package.json, no build and no
+server, so a bare deploy has nothing to start.
+
+Caddy rather than nginx because it reads Railway's `$PORT` straight from the
+environment with no entrypoint templating. Only the served files are copied
+into the image; the README, Dockerfile and Caddyfile stay out of the web root.
+
+Cache headers are deliberately short: the image filenames are not
+content-hashed, so a long immutable cache would strand viewers on an old
+headshot after it is replaced.
+
+Verified locally with Caddy (`caddy validate`, then served with `PORT` set):
+binds the assigned port, `/` returns the page at max-age=300, images return
+max-age=86400, gzip negotiates 52 KB down to 15 KB, unknown paths 404 properly.
+The image itself was NOT build-tested — there is no Docker daemon on the
+machine it was written on, so the first Railway build is the real test.
+
 ## Still outstanding
 
 - **Copy sign-off.** Sean's bio, the taglines, the credits and the contact
