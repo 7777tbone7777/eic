@@ -59,9 +59,6 @@ machine it was written on, so the first Railway build is the real test.
   services, the four formats, the five-phase process, the old-way/EIC-way
   comparison and the four audience blocks — **was written for this draft and
   has not been approved.** Get his sign-off before sharing the link widely.
-- **`images/og-card.png` does not exist yet.** The OpenGraph tags reference a
-  1200×630 share card that still needs designing. Until it exists, link
-  previews will fall back to no image.
 
 ## How it degrades
 
